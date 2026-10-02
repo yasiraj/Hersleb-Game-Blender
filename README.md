@@ -2,6 +2,8 @@
 
 A Blender-built browser survival horror prototype set at Hersleb videregående skole in Oslo. You are a student returning after the last bell. Collect your student ID, a fuse, and the archive key, restore the breaker, unlock the street gate, and escape. A pursuer patrols the halls, hears running, follows you around walls, and searches your last known position. Break its line of sight and hide in lockers.
 
+**[Play the game](https://yasiraj.github.io/Hersleb-Game-Blender/)** — GitHub Pages is the temporary host while Sites remains the intended destination.
+
 The gameplay combines the warning sounds and hiding rhythm of **DOORS / Pressure** with **The Mimic**’s exploration and chases. Sounds are synthesized locally and the 3D assets are generated and editable in Blender.
 
 ## Location accuracy
@@ -20,7 +22,7 @@ npm ci --cache /workspace/.npm-cache --no-audit --no-fund
 npm run dev
 ```
 
-The development server listens on port 5173. It is checked internally during cloud onboarding. User-facing publication must use the Sites connector or another static host; a localhost address is not a published game.
+The development server listens on port 5173. It is checked internally during cloud onboarding. The public game uses GitHub Pages; a localhost address is not a published game.
 
 ```sh
 npm test
@@ -59,4 +61,14 @@ Phones have a movement stick, drag-to-look, and action buttons. Look sensitivity
 
 ## Publication
 
-The game is a static site and requires no API keys, login, database, or remote asset services to play. `npm run build` produces a deployment package in `dist/`. Sites publication cannot be confirmed until the Sites connector is callable in the session; a successful build alone does not publish it.
+The game is a static site and requires no API keys, login, database, or remote asset services to play. `npm run build` produces the deployment package in `dist/`. Source code is on `main`; the built game is on `gh-pages`, served from the branch root with `.nojekyll`.
+
+To publish an update after committing the corresponding source and validating the game:
+
+```sh
+npm run deploy:pages
+```
+
+The deployment script uses the GitHub credential already provided to the environment (`GH_TOKEN` or `GITHUB_TOKEN`) and a configured Git author. It creates a temporary clone of the deployment branch, pushes the new build without force, and checks the Pages configuration. Publication credentials are separate from the game and are never included in its assets. First-time hosting configuration requires repository Pages permission.
+
+The current public deployment was verified against the build: HTML, JavaScript, CSS, game metadata, and all three Blender GLBs returned HTTP 200 with identical contents; GitHub reported the Pages build as successful. Sites remains the user's intended host. Its tools are unavailable in this session, so the same self-contained `dist/` package is ready for migration when that connector becomes callable.
