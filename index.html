@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#101616" />
+    <meta name="description" content="The last bell has rung. A Blender-built survival horror game set at Hersleb videregående skole, Oslo." />
+    <title>Hersleb — After Hours</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23101616'/%3E%3Cpath d='M18 14v36m28-36v36M18 32h28' stroke='%23dbbe83' stroke-width='5' fill='none'/%3E%3C/svg%3E" />
+  </head>
+  <body data-phase="title">
+    <canvas id="scene" aria-label="Three dimensional Hersleb school environment"></canvas>
+    <div class="cinema-shade" aria-hidden="true"></div>
+    <div class="film-grain" aria-hidden="true"></div>
+    <div id="danger-vignette" aria-hidden="true"></div>
+    <div id="scare-flash" aria-hidden="true"></div>
+
+    <header class="masthead" id="masthead">
+      <a class="brand" href="#" aria-label="Hersleb After Hours home">
+        <svg viewBox="0 0 40 42" aria-hidden="true"><path d="M5 37V17L20 5l15 12v20M13 37V23h14v14M4 37h32M12 15h16M20 2v7M17 2h6" /></svg>
+        <span>HERSLEB<span class="brand-sub">AN AFTER-HOURS STORY</span></span>
+      </a>
+      <nav aria-label="Game information">
+        <button data-panel="story">The story</button>
+        <button data-panel="controls">How to play</button>
+        <button data-panel="notes">Field notes <svg class="tiny-arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 12 4M4 4h8v8"/></svg></button>
+      </nav>
+      <button class="sound-control" id="sound-button" aria-label="Enable sound" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4zM17 8c2 2 2 6 0 8M20 5c4 4 4 10 0 14" /></svg>
+        <span id="sound-label">SOUND OFF</span>
+      </button>
+    </header>
+
+    <main>
+      <section id="title-screen" class="title-screen" aria-label="Start game">
+        <div class="chapter-label"><span class="status-dot"></span> OSLO, NORWAY <span class="label-divider"></span> 23:47</div>
+        <p class="eyebrow">A SURVIVAL HORROR EXPERIENCE</p>
+        <h1>HERSLEB<span class="title-period">.</span></h1>
+        <div class="subtitle"><span class="subtitle-line"></span> ETTER STENGETID</div>
+        <p class="hero-copy">You know these halls.<br />Tonight, they know you.</p>
+        <p class="hero-description">One forgotten notebook. An empty school.<br />And something that never went home.</p>
+        <div class="hero-actions">
+          <button class="primary-button" id="start-button" disabled><span id="start-label">Preparing the school</span><svg class="button-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="m4 16 12-12M5 4h11v11"/></svg></button>
+          <button class="text-button" data-panel="controls">How to survive <span>→</span></button>
+        </div>
+        <p class="headphone-note"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 11V9a7 7 0 0 1 14 0v2M3 10H2v6h4v-6zm14 0h1v6h-4v-6z" /></svg> Headphones recommended. Listen before you move.</p>
+      </section>
+
+      <aside class="scene-caption" id="scene-caption"><span class="caption-line"></span><span>THE LAST BELL<br />HAS ALREADY RUNG.</span></aside>
+      <footer class="title-footer" id="title-footer">
+        <div class="location-coordinate"><span class="crosshair-symbol">⌖</span><span>59.9181° N &nbsp; 10.7641° E<br /><small>HERSLEB VIDEREGÅENDE SKOLE</small></span></div>
+        <span class="edition-tag">CHAPTER 01 <span>—</span> AFTER HOURS</span>
+        <span class="build-tag"><span class="status-dot"></span> PLAYABLE PROTOTYPE</span>
+      </footer>
+
+      <section id="hud" hidden aria-label="Game heads up display">
+        <div class="hud-heading"><span class="small-brand">H / AH</span><span id="location-name">School courtyard</span><button id="pause-button" aria-label="Pause game">Ⅱ</button></div>
+        <div class="objective-panel"><p class="eyebrow">GET HOME.</p><p id="objective-text" aria-live="polite">Find your student ID.</p><span class="objective-count" id="objective-count">0 / 3</span></div>
+        <div class="crosshair" aria-hidden="true"></div>
+        <div id="interaction-prompt" class="interaction-prompt" hidden><kbd>E</kbd> <span id="interaction-text"></span></div>
+        <div id="hiding-indicator" hidden><span class="status-dot"></span> HIDDEN <small>Stay quiet. Press E to leave.</small></div>
+        <div class="hud-bottom"><div class="survival-meters"><div class="meter-heading"><span>STAMINA</span><span id="stamina-label">100</span></div><div class="meter-track"><div id="stamina-bar"></div></div><button id="flashlight-button" class="flashlight-control" aria-pressed="true"><span class="lamp-dot"></span> FLASHLIGHT <kbd>F</kbd></button></div><div class="inventory" id="inventory" aria-label="Inventory"><div data-item="student-id"><span>01</span><svg viewBox="0 0 28 28" aria-hidden="true"><rect x="4" y="7" width="20" height="14" rx="2"/><circle cx="10" cy="12" r="2"/><path d="M7 17h6m3-5h5m-5 4h5"/></svg><small>STUDENT ID</small></div><div data-item="fuse"><span>02</span><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M10 4h8v20h-8zM8 5h12M8 23h12m-6-14-2 5h4l-2 5"/></svg><small>FUSE</small></div><div data-item="archive-key"><span>03</span><svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="m14 14 10 10m-3-3 3-3m-6 0 3-3"/></svg><small>ARCHIVE KEY</small></div></div><button id="map-button" class="map-control">SCHOOL MAP <kbd>M</kbd></button></div>
+        <div class="hud-controls"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> MOVE</span><span><kbd>SHIFT</kbd> RUN</span><span><kbd>CTRL</kbd> CROUCH</span><span><kbd>ESC</kbd> PAUSE</span></div>
+      </section>
+
+      <div id="touch-controls" hidden><div id="joystick" aria-label="Movement joystick"><div id="joystick-knob"></div></div><div class="touch-actions"><button id="touch-run">RUN</button><button id="touch-crouch">CROUCH</button><button id="touch-interact">E</button></div></div>
+      <div id="toast" class="toast" role="status" hidden></div>
+      <div id="loading-status" class="loading-status" role="status"><span class="loading-ring"></span> Opening the courtyard…</div>
+
+      <section id="modal" class="modal-scrim" hidden aria-label="Game information"><div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="close-button" id="modal-close" aria-label="Close">×</button><p class="eyebrow" id="modal-eyebrow">HERSLEB — AFTER HOURS</p><h2 id="modal-title"></h2><div id="modal-content"></div></div></section>
+
+      <section id="pause-screen" class="pause-screen" hidden><div class="pause-card"><p class="eyebrow">TAKE A BREATH</p><h2>Still here.</h2><p>The corridors can wait.</p><button id="resume-button" class="primary-button">Return to the halls <span>→</span></button><button id="restart-button" class="secondary-button">Start over</button><button id="pause-controls-button" class="text-button">Controls & settings</button></div></section>
+      <section id="end-screen" class="end-screen" hidden><div class="end-card"><p class="eyebrow" id="end-eyebrow"></p><h2 id="end-title"></h2><p id="end-copy"></p><button id="retry-button" class="primary-button">Try again <span>↗</span></button><button id="home-button" class="text-button">Back to the courtyard</button></div></section>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
